@@ -17,7 +17,8 @@ import java.util.List;
 public class AuthenticationFilter implements Filter, Ordered {
     public static final List<String> publicApiEndpoints = List.of(
             "/auth/login",
-            "/auth/register"
+            "/auth/register",
+            "/trips"
     );
 
     public static final List<String> publicMethods = List.of(
