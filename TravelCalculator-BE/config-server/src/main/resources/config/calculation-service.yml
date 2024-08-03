@@ -1,0 +1,16 @@
+server:
+  port: 8082
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+google:
+  api:
+    key: AIzaSyA2RwxXxbko2Az3q5c4tz7wxB1r3beWgmc

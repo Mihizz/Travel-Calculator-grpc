@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: authentication-service
+  config:
+    import: "optional:configserver:http://localhost:8088"
+
+app:
+  jwt-secret: 3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b
+  jwt-expiration-milliseconds: 86400000
+

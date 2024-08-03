@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package com.fon.master.proto;
+
+option java_multiple_files = true;
+
+// --------------  PRICING  -----------------------
+message ProtoCountry{
+  int32 country_id = 1;
+  string country_name = 2;
+  string country_name_eng = 3;
+  int32 base_currency_id = 4;
+}
+
+message ProtoCurrency{
+  int32 currency_id = 1;
+  string currency_name = 2;
+  float exchange_rate = 3;
+  string symbol = 4;
+  string updated_at = 5;
+}
+
+message ProtoFuel{
+  int32 fuel_id = 1;
+  int32 country_id = 2;
+  int32 fuel_type_id = 3;
+  float price = 4;
+  string updated_at = 5;
+  string fuel_type_name = 6;
+  string fuel_unit = 7;
+  string fuel_country_name = 8;
+}
+
+service CountryService{
+  rpc getCountry(ProtoCountry) returns(ProtoCountry){}
+}
+
+service CurrencyService{
+  rpc getCurrency(ProtoCurrency) returns(ProtoCurrency){}
+}
+
+service FuelService{
+  rpc getFuel(ProtoFuel) returns(ProtoFuel){}
+}
+
+
+// ------------ AUTHENTICATION -------------------
+
+message ProtoAccount{
+  int32 account_id = 1;
+  int32 currency_id = 2;
+  int32 country_id = 3;
+  string email = 4;
+  string first_name = 5;
+  string last_name = 6;
+}
+
+message ProtoVehicle{
+  int32 vehicle_id = 1;
+  int32 account_id = 2;
+  int32 fuel_id = 3;
+  int32 vehicle_type_id = 4;
+  string manufacturer = 5;
+  string model = 6;
+  float consumption_rate = 7;
+  int32 seats = 8;
+}
+
+service AccountService{
+  rpc getAccount(ProtoAccount) returns(ProtoAccount){}
+}
+
+service VehicleService{
+  rpc getVehicle(ProtoVehicle) returns(ProtoVehicle){}
+}
