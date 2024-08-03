@@ -19,10 +19,11 @@ import com.fon.master.proto.CountryServiceGrpc;
 import com.fon.master.proto.CurrencyServiceGrpc;
 import com.fon.master.proto.ProtoCountry;
 import com.fon.master.proto.ProtoCurrency;
+import org.springframework.security.core.Authentication;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -226,6 +227,36 @@ public class AccountServiceImpl implements AccountService {
                 () -> new ResourceNotFoundException("Account","id",accountId));
 
         accountRepository.delete(account);
+    }
+
+    @Override
+    public AccountDto getCurrent() {
+        Account account = getCurrentAccount();
+
+        Country country = restTemplate.getForObject(
+                "http://pricing-service/countries/" + account.getCountryId(),
+                Country.class);
+
+        Currency currency = restTemplate.getForObject(
+                "http://pricing-service/currencies/" + account.getCurrencyId(),
+                Currency.class);
+
+        account.setCurrencyId(currency.getId());
+        account.setCountryId(country.getId());
+
+        account.setRoles(accountRepository.findRoleNamesByAccountId(account.getId()));
+
+        return mapToDTOWithValueObjects(account, country, currency);
+    }
+
+    private Account getCurrentAccount() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String currentEmail = authentication.getName();
+
+        return accountRepository.findByEmail(currentEmail).orElseThrow(
+                () -> new ResourceNotFoundException("Account", "email", currentEmail)
+        );
     }
 
     //covert entity to DTO

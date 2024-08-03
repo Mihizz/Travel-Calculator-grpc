@@ -33,4 +33,9 @@ public class AccountController {
         return new ResponseEntity<>(updateAccount, HttpStatus.OK);
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<AccountDto> getCurrentAccount() {
+        return new ResponseEntity<>(accountService.getCurrent(), HttpStatus.OK);
+    }
+
 }

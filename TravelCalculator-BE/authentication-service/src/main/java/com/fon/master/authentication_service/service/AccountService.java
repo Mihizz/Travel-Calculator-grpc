@@ -29,4 +29,7 @@ public interface AccountService {
 
     //DELETE
     void deleteAccount(long accountId);
+
+    //GET CURRENT ACCOUNT
+    AccountDto getCurrent();
 }
