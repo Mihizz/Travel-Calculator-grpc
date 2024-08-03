@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.DecimalFormat;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TripServiceImpl implements TripService {
@@ -128,6 +130,14 @@ public class TripServiceImpl implements TripService {
         }
     }
 
+    @Override
+    public List<TripDto> getAllTrips() {
+        List<Trip> trips = tripRepository.findAll();
+        return trips.stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
     //if the user is logged in
     private void handleAccountTrip(Trip trip, TripDto tripDto, DecimalFormat df, Fuel fuel, Currency currency) {
         Account account = restTemplate.getForObject("http://authentication-service/accounts/" + tripDto.getAccountId(), Account.class);
@@ -135,7 +145,7 @@ public class TripServiceImpl implements TripService {
 
         trip.setAccountId(account.getId());
         trip.setCountryId(account.getCountryId());
-        trip.setCurrencyId(currency.getId());
+        trip.setCurrencyId(currency1.getId());
 
         currency.setId(currency1.getId());
         currency.setCurrencyName(currency1.getCurrencyName());
@@ -185,7 +195,7 @@ public class TripServiceImpl implements TripService {
 
         trip.setCountryId(country.getId());
         trip.setFuelId(fuel.getId());
-        trip.setCurrencyId(currency.getId());
+        trip.setCurrencyId(currency1.getId());
         trip.setConsumptionRate(tripDto.getConsumptionRate());
 
         currency.setId(currency1.getId());
@@ -221,7 +231,7 @@ public class TripServiceImpl implements TripService {
 
         trip.setAccountId((long) accountResponse.getAccountId());
         trip.setCountryId((long) accountResponse.getCountryId());
-        trip.setCurrencyId(currency.getId());
+        trip.setCurrencyId((long) currencyResponse.getCurrencyId());
 
         currency.setId((long) currencyResponse.getCurrencyId());
         currency.setCurrencyName(currencyResponse.getCurrencyName());
@@ -281,7 +291,7 @@ public class TripServiceImpl implements TripService {
 
         trip.setCountryId((long) countryResponse.getCountryId());
         trip.setFuelId(fuel.getId());
-        trip.setCurrencyId(currency.getId());
+        trip.setCurrencyId((long) currencyResponse.getCurrencyId());
         trip.setConsumptionRate(tripDto.getConsumptionRate());
 
         currency.setId((long) currencyResponse.getCurrencyId());
@@ -298,6 +308,30 @@ public class TripServiceImpl implements TripService {
         calculatePrices(trip, df, fuel, currency);
     }
 
+    private TripDto mapToDTO(Trip trip) {
+        TripDto tripDto = new TripDto();
+
+        tripDto.setId(trip.getId());
+        tripDto.setFuelId(trip.getFuelId());
+        tripDto.setCountryId(trip.getCountryId());
+        tripDto.setCurrencyId(trip.getCurrencyId());
+        tripDto.setVehicleId(trip.getVehicleId());
+        tripDto.setAccountId(trip.getAccountId());
+        tripDto.setTripDistance(trip.getTripDistance());
+        tripDto.setTime(trip.getTime());
+        tripDto.setPaytool(trip.getPaytool());
+        tripDto.setCityId1(trip.getCity1() != null ? trip.getCity1().getId() : null);
+        tripDto.setCityId2(trip.getCity2() != null ? trip.getCity2().getId() : null);
+        tripDto.setCityName1(trip.getCityName1().replace("_", " "));
+        tripDto.setCityName2(trip.getCityName2().replace("_", " "));
+        tripDto.setConsumptionRate(trip.getConsumptionRate());
+        tripDto.setSeats(trip.getSeats());
+        tripDto.setFuelSpent(trip.getFuelSpent());
+        tripDto.setFullPrice(trip.getFullPrice());
+        tripDto.setExecutionTime(trip.getExecutionTime());
+
+        return tripDto;
+    }
 
     //from entity to DTO
     private TripDto mapToDTO(Trip trip, Fuel fuel, Currency currency) {
