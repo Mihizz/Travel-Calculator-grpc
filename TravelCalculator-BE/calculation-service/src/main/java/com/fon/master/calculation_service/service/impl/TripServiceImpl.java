@@ -140,6 +140,7 @@ public class TripServiceImpl implements TripService {
         currency.setId(currency1.getId());
         currency.setCurrencyName(currency1.getCurrencyName());
         currency.setExchangeRate(currency1.getExchangeRate());
+        currency.setSymbol(currency1.getSymbol());
 
         //if account choose his vehicle
         if (tripDto.getVehicleId() != null) {
@@ -190,6 +191,7 @@ public class TripServiceImpl implements TripService {
         currency.setId(currency1.getId());
         currency.setCurrencyName(currency1.getCurrencyName());
         currency.setExchangeRate(currency1.getExchangeRate());
+        currency.setSymbol(currency1.getSymbol());
 
         fuel.setId(fuel1.getId());
         fuel.setFuelName(fuel1.getFuelName());
@@ -224,6 +226,7 @@ public class TripServiceImpl implements TripService {
         currency.setId((long) currencyResponse.getCurrencyId());
         currency.setCurrencyName(currencyResponse.getCurrencyName());
         currency.setExchangeRate(currencyResponse.getExchangeRate());
+        currency.setSymbol(currencyResponse.getSymbol());
 
         //if account choose his vehicle
         if (tripDto.getVehicleId() != null) {
@@ -284,6 +287,7 @@ public class TripServiceImpl implements TripService {
         currency.setId((long) currencyResponse.getCurrencyId());
         currency.setCurrencyName(currencyResponse.getCurrencyName());
         currency.setExchangeRate(currencyResponse.getExchangeRate());
+        currency.setSymbol(currencyResponse.getSymbol());
 
         fuel.setId((long) fuelResponse.getFuelId());
         fuel.setFuelName(fuelResponse.getFuelTypeName());
@@ -320,7 +324,7 @@ public class TripServiceImpl implements TripService {
 
         tripDto.setCurrencyId(currency.getId());
         tripDto.setExchangeRate(currency.getExchangeRate());
-        tripDto.setCurrencySymbol(tripDto.getCurrencySymbol());
+        tripDto.setCurrencySymbol(currency.getSymbol());
 
         tripDto.setFuelUnit(fuel.getFuelUnit());
         tripDto.setFuelPriceInDinars(fuel.getPriceInDinars());

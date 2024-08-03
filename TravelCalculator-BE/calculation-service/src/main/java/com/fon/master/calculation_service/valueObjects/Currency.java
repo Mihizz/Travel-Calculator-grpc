@@ -12,4 +12,5 @@ public class Currency {
     private Long id;
     private String currencyName;
     private double exchangeRate;
+    private String symbol;
 }
