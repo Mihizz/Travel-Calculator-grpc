@@ -91,7 +91,7 @@ public class CityServiceImpl implements CityService {
 
         cityDto.setId(city.getId());
         cityDto.setCityName(city.getCityName());
-
+        cityDto.setGoogleMapsCode(city.getGoogleMapsCode());
         cityDto.setCountryId(city.getCountryId());
 
         return cityDto;
@@ -105,7 +105,7 @@ public class CityServiceImpl implements CityService {
         city.setCityName(cityDto.getCityName());
         city.setGoogleMapsCode(cityDto.getGoogleMapsCode());
 
-        city.setCountryId(city.getCountryId());
+        city.setCountryId(cityDto.getCountryId());
 
         return city;
     }

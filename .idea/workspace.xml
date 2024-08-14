@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="86bebdb0-e597-4518-8b7f-43d74110ef02" name="Changes" comment="Backend" />
+    <list default="true" id="86bebdb0-e597-4518-8b7f-43d74110ef02" name="Changes" comment="Backend">
+      <change afterPath="$PROJECT_DIR$/TravelCalculator-BE/calculation-service/src/test/java/com/fon/master/calculation_service/controller/CityControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TravelCalculator-BE/calculation-service/src/test/java/com/fon/master/calculation_service/controller/TripControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TravelCalculator-BE/calculation-service/src/main/java/com/fon/master/calculation_service/service/impl/TripServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/TravelCalculator-BE/calculation-service/src/main/java/com/fon/master/calculation_service/service/impl/TripServiceImpl.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -42,6 +47,7 @@
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "jdk.selected.JAVA_MODULE": "17",
@@ -223,6 +229,8 @@
       <workItem from="1722604502158" duration="6997000" />
       <workItem from="1722681467893" duration="7938000" />
       <workItem from="1722697671606" duration="89000" />
+      <workItem from="1723043258106" duration="38000" />
+      <workItem from="1723406486763" duration="31000" />
     </task>
     <servers />
   </component>
