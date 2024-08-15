@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package com.fon.master.proto;
+
+option java_multiple_files = true;
+
+message ProtoCountry{
+  int32 country_id = 1;
+  string country_name = 2;
+  string country_name_eng = 3;
+  int32 base_currency_id = 4;
+}
+
+service CountryService{
+  rpc getCountry(ProtoCountry) returns(ProtoCountry){}
+}

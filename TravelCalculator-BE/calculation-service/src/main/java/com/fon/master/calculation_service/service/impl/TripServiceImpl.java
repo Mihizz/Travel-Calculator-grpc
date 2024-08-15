@@ -1,5 +1,7 @@
 package com.fon.master.calculation_service.service.impl;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fon.master.calculation_service.exception.ResourceNotFoundException;
 import com.fon.master.calculation_service.model.City;
 import com.fon.master.calculation_service.model.Trip;
@@ -8,6 +10,7 @@ import com.fon.master.calculation_service.repository.CityRepository;
 import com.fon.master.calculation_service.repository.TripRepository;
 import com.fon.master.calculation_service.service.TripService;
 import com.fon.master.calculation_service.valueObjects.*;
+import com.fon.master.calculation_service.valueObjects.Country;
 import com.fon.master.proto.*;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -16,6 +19,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -65,44 +69,42 @@ public class TripServiceImpl implements TripService {
         long startTime = System.currentTimeMillis();
 
         //uncomment this to use grpc
-        //isGrpc = true;
+        isGrpc = true;
 
         try {
             Trip trip = mapToEntity(tripDto);
             DecimalFormat df = new DecimalFormat("#.00");
             String url;
-//
-//            //getting distance and time based on the cities and pay-tool inputted
-//            if(tripDto.getCityId1() == null){
-//                String avoid = trip.getPaytool() == 0 ? "highways" : "";
-//                url = UriComponentsBuilder.fromHttpUrl("https://maps.googleapis.com/maps/api/directions/json")
-//                        .queryParam("origin", trip.getCityName1())
-//                        .queryParam("destination", trip.getCityName2())
-//                        .queryParam("key", apiKey)
-//                        .queryParam("avoid", avoid)
-//                        .toUriString();
-//            }
-//            else{
-//                String avoid = trip.getPaytool() == 0 ? "highways" : "";
-//                url = UriComponentsBuilder.fromHttpUrl("https://maps.googleapis.com/maps/api/directions/json")
-//                        .queryParam("origin", trip.getCity1Code().length() < 10 ? trip.getCityName1() : trip.getCity1Code())
-//                        .queryParam("destination", trip.getCity2Code().length() < 10 ? trip.getCityName2() : trip.getCity2Code())
-//                        .queryParam("key", apiKey)
-//                        .queryParam("avoid", avoid)
-//                        .toUriString();
-//            }
-//
-//
-//
-//            String jsonResponse = plainRestTemplate.getForObject(url, String.class);
-//
-//            ObjectMapper objectMapper = new ObjectMapper();
-//            JsonNode rootNode = objectMapper.readTree(jsonResponse);
-//            trip.setTripDistance(Double.parseDouble(rootNode.at("/routes/0/legs/0/distance/value").asText()) / 1000.00);
-//            trip.setTime(rootNode.at("/routes/0/legs/0/duration/text").asText());
 
-            trip.setTripDistance(150.00);
-            trip.setTime("Testing");
+            //getting distance and time based on the cities and pay-tool inputted
+            if(tripDto.getCityId1() == null){
+                String avoid = trip.getPaytool() == 0 ? "highways" : "";
+                url = UriComponentsBuilder.fromHttpUrl("https://maps.googleapis.com/maps/api/directions/json")
+                        .queryParam("origin", trip.getCityName1())
+                        .queryParam("destination", trip.getCityName2())
+                        .queryParam("key", apiKey)
+                        .queryParam("avoid", avoid)
+                        .toUriString();
+            }
+            else{
+                String avoid = trip.getPaytool() == 0 ? "highways" : "";
+                url = UriComponentsBuilder.fromHttpUrl("https://maps.googleapis.com/maps/api/directions/json")
+                        .queryParam("origin", trip.getCity1Code().length() < 10 ? trip.getCityName1() : trip.getCity1Code())
+                        .queryParam("destination", trip.getCity2Code().length() < 10 ? trip.getCityName2() : trip.getCity2Code())
+                        .queryParam("key", apiKey)
+                        .queryParam("avoid", avoid)
+                        .toUriString();
+            }
+
+            String jsonResponse = plainRestTemplate.getForObject(url, String.class);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode rootNode = objectMapper.readTree(jsonResponse);
+            trip.setTripDistance(Double.parseDouble(rootNode.at("/routes/0/legs/0/distance/value").asText()) / 1000.00);
+            trip.setTime(rootNode.at("/routes/0/legs/0/duration/text").asText());
+
+            //trip.setTripDistance(150.00);
+            //trip.setTime("Testing");
 
             Fuel fuel = new Fuel();
             Currency currency = new Currency();
